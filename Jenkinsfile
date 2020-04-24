@@ -41,7 +41,7 @@ pipeline {
                     -v $HOME/code-quality/:/root/code-quality \
                     --entrypoint /bin/bash \
                     precise:${BRANCH_ALIAS} \
-                    -x -c "grep -F .py /root/code-quality/change-set.txt | xargs pylint"'
+                    -x -c "cat /root/code-quality/change-set.txt | xargs pylint"'
             }
         }
         stage('Run Tests') {
