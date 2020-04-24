@@ -26,7 +26,7 @@ pipeline {
             // If Black check passes, run PyLint against the same set of Python
             // modules. Build will fail if lint is found in code.
             when {
-                changeRequest target: 'dev'
+                branch 'continuous-int-wip'
             }
             steps {
                 sh 'docker build --build-arg PR=${CHANGE_BRANCH} -t precise:${BRANCH_ALIAS} .'
@@ -41,7 +41,7 @@ pipeline {
                     -v $HOME/code-quality/:/root/code-quality \
                     --entrypoint /bin/bash \
                     precise:${BRANCH_ALIAS} \
-                    -x -c "grep -F .py /root/code-quality/change-set.txt | xargs pylint"'
+                    -x -c "/root/code-quality/change-set.txt | xargs pylint"'
             }
         }
         stage('Run Tests') {
